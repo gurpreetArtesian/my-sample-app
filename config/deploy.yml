@@ -1,6 +1,10 @@
 ﻿# Name of your application. Used to uniquely configure containers.
 service: my-sample-app
 
+ssh:
+  user: gurpreet
+  log_level: debug
+
 # Name of the container image.
 image: ghcr.io/gurpreetArtesian/my-sample-app:latest
 
