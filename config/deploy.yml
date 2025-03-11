@@ -22,8 +22,8 @@ proxy:
 # Credentials for your image host.
 registry:
   server: ghcr.io
-  username: "${{ secrets.KAMAL_REGISTRY_USERNAME }}"
-  password: "${{ secrets.GH_TOKEN }}"
+  username: <%= ENV['KAMAL_REGISTRY_USERNAME'] %>
+  password: <%= ENV['KAMAL_REGISTRY_PASSWORD'] %>
 
 # Configure builder setup.
 builder:
