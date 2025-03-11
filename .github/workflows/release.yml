@@ -13,6 +13,7 @@ env:
   DOCKER_BUILDKIT: 1
   KAMAL_REGISTRY_PASSWORD: ${{ secrets.GH_TOKEN }}
   KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
+  KAMAL_DEPLOY_IP: ${{ secrets.KAMAL_DEPLOY_IP }}
 
 jobs:
   release:
@@ -43,4 +44,4 @@ jobs:
 
       - name: Kamal Deploy
         run: |
-          kamal deploy -P --version latest
+          kamal deploy

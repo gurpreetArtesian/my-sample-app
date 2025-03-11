@@ -2,7 +2,7 @@
 service: my-sample-app
 
 # Name of the container image.
-image: ghcr.io/${{ secrets.KAMAL_REGISTRY_USERNAME }}/my-sample-app:latest
+image: ghcr.io/gurpreetArtesian/my-sample-app:latest
 
 # Required for use of ASP.NET Core with Kamal-Proxy.
 env:
@@ -11,12 +11,12 @@ env:
 # Deploy to these servers.
 servers:
   web:
-    - "${{ secrets.KAMAL_DEPLOY_IP }}"  # Deployment server IP from GitHub Secrets
+    - 172.30.252.9  # Deployment server IP from GitHub Secrets
 
 # Enable SSL auto certification via Let's Encrypt (for production usage).
 proxy:
   ssl: false  # Set to true if using a domain with HTTPS
-  host: ${{ secrets.KAMAL_DEPLOY_IP }}  # Public or local domain name
+  host: 172.30.252.9  # Public or local domain name
   app_port: 8080  # Change if your app runs on a different port
 
 # Credentials for your image host.
