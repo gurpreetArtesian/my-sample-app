@@ -37,9 +37,9 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: github_actions
 
-      - name: Debug SSH Connection
-        run: |
-          ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no gurpreet@${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
+      # - name: Debug SSH Connection
+      #   run: |
+      #     ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no gurpreet@${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
 
       - name: Test Docker Login
         run: |
