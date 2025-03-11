@@ -4,7 +4,7 @@ on:
   pull_request: {}
   push:
     branches:
-      - '**'        # matches every branch
+      - none        # matches every branch
 
 jobs:
   build:
