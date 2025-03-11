@@ -38,7 +38,7 @@ jobs:
 
       - name: Debug SSH Connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
+          ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no user@${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
 
       - name: Test Docker Login
         run: |
