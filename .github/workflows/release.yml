@@ -31,10 +31,10 @@ jobs:
           username: ${{ env.KAMAL_REGISTRY_USERNAME }}
           password: ${{ env.KAMAL_REGISTRY_PASSWORD }}
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Debug SSH Connection
         run: |
