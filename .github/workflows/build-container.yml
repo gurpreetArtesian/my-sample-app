@@ -16,6 +16,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: my-local-wsl
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
