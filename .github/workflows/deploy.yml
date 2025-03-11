@@ -1,0 +1,47 @@
+name: Deploy to Local WSL
+
+on:
+  push:
+    branches:
+      - none  # Trigger deployment when pushing to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.WSL_SSH_PRIVATE_KEY }}" > ~/.ssh/wsl_key
+          chmod 600 ~/.ssh/wsl_key
+          ssh-keyscan -H ${{ secrets.WSL_IP_ADDRESS }} >> ~/.ssh/known_hosts
+
+      - name: Ensure Git Repo is Updated on WSL
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.WSL_IP_ADDRESS }}
+          username: ${{ secrets.WSL_SSH_USER }}
+          key: ${{ secrets.WSL_SSH_PRIVATE_KEY }}
+          script: |
+            set -e  # Stop on error
+            cd ~
+            if [ ! -d "my-sample-app" ]; then
+              git clone https://github.com/gurpreetArtesian/my-sample-app.git
+            else
+              cd my-sample-app
+              git pull origin main
+            fi
+
+      - name: Run Kamal Deploy on WSL
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.WSL_IP_ADDRESS }}
+          username: ${{ secrets.WSL_SSH_USER }}
+          key: ${{ secrets.WSL_SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/my-sample-app
+            kamal deploy
