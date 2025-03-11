@@ -41,9 +41,9 @@ jobs:
       #   run: |
       #     ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no gurpreet@${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
 
-      - name: Test Docker Login
-        run: |
-          echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ secrets.KAMAL_REGISTRY_USERNAME }} --password-stdin
+      # - name: Test Docker Login
+      #   run: |
+      #     echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ secrets.KAMAL_REGISTRY_USERNAME }} --password-stdin
 
       - name: Setup Ruby & Install Kamal
         uses: ruby/setup-ruby@v1
