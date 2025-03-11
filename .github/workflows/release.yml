@@ -4,10 +4,10 @@ permissions:
   contents: write
 on:
   workflow_run:
-    workflows: ["Build Container"] # Ensure this matches the actual name
+    workflows: ["Build Container"]
     types:
-      - completed # Runs when "Build Container" finishes successfully
-  workflow_dispatch: # Allows manual trigger
+      - completed
+  workflow_dispatch:
 
 env:
   DOCKER_BUILDKIT: 1
@@ -31,19 +31,19 @@ jobs:
           username: ${{ env.KAMAL_REGISTRY_USERNAME }}
           password: ${{ env.KAMAL_REGISTRY_PASSWORD }}
 
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # name: github_actions
+      - name: Setup SSH Key with Passphrase
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY_PASSPHRASE }}" > ~/.ssh/passphrase.txt
+          chmod 600 ~/.ssh/passphrase.txt
+          
+          eval "$(ssh-agent -s)"
+          SSH_ASKPASS=/bin/cat ssh-add ~/.ssh/id_rsa < ~/.ssh/passphrase.txt
 
-      # - name: Debug SSH Connection
-      #   run: |
-      #     ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no gurpreet@${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
-
-      # - name: Test Docker Login
-      #   run: |
-      #     echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ secrets.KAMAL_REGISTRY_USERNAME }} --password-stdin
+          # Optional: Verify SSH connection
+          ssh -o StrictHostKeyChecking=no gurpreet@${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
 
       - name: Setup Ruby & Install Kamal
         uses: ruby/setup-ruby@v1
