@@ -10,8 +10,8 @@ on:
 
 env:
   DOCKER_BUILDKIT: 1
-  KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-  KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
+  KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+  KAMAL_REGISTRY_USERNAME: ${{ github.actor }}
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ env.KAMAL_REGISTRY_USERNAME }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ env.KAMAL_REGISTRY_PASSWORD }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
