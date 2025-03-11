@@ -1,15 +1,13 @@
-﻿name: Release
+name: Release
 permissions:
   packages: write
   contents: write
 on:
   workflow_run:
-    workflows: ["Build Container"]
+    workflows: ["Build Container"]  # Ensure this matches the actual name
     types:
-      - completed
-    branches:
-      - none
-  workflow_dispatch:
+      - completed  # Runs when "Build Container" finishes successfully
+  workflow_dispatch:  # Allows manual trigger
 
 env:
   DOCKER_BUILDKIT: 1
