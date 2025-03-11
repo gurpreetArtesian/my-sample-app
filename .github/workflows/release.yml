@@ -4,10 +4,10 @@ permissions:
   contents: write
 on:
   workflow_run:
-    workflows: ["Build Container"]  # Ensure this matches the actual name
+    workflows: ["Build Container"] # Ensure this matches the actual name
     types:
-      - completed  # Runs when "Build Container" finishes successfully
-  workflow_dispatch:  # Allows manual trigger
+      - completed # Runs when "Build Container" finishes successfully
+  workflow_dispatch: # Allows manual trigger
 
 env:
   DOCKER_BUILDKIT: 1
@@ -36,6 +36,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Debug SSH Connection
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.KAMAL_DEPLOY_IP }} "echo 'SSH Connection Successful'"
+
+      - name: Test Docker Login
+        run: |
+          echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u ${{ secrets.KAMAL_REGISTRY_USERNAME }} --password-stdin
+
       - name: Setup Ruby & Install Kamal
         uses: ruby/setup-ruby@v1
         with:
@@ -44,4 +52,4 @@ jobs:
 
       - name: Kamal Deploy
         run: |
-          kamal deploy
+          kamal deploy --verbose
